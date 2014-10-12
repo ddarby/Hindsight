@@ -42,10 +42,10 @@ public class CalendarFragment extends Fragment implements FragmentHandler {
     @Override
     public void handleTransition(FragmentManager fragMan){
         FragmentTransaction fragTrans = fragMan.beginTransaction();
-        //fragTrans.setCustomAnimations(R.anim.enter_left, R.anim.exit_left);
+        fragTrans.setCustomAnimations(R.anim.enter_left, R.anim.exit_left);
         Log.d("IS IT VISIBLE ALREADY? ",""+this.isVisible());
         if(!this.isVisible()) {
-            //homeFragment.handleTransition(fragMan);
+            homeFragment.handleTransition(fragMan);
             fragTrans.replace(containerId, this, tag);
             fragTrans.commit();
             return;
