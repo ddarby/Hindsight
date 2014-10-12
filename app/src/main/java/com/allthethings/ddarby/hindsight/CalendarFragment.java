@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
 /**
  * Created by ddarby on 10/12/14.
@@ -22,6 +23,7 @@ public class CalendarFragment extends Fragment implements FragmentHandler {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.calendar_fragment, container, false);
+        //CalendarView calenderView = (CalendarView) rootView.findViewById(R.id.calendarView);
         return rootView;
     }
 
@@ -40,10 +42,10 @@ public class CalendarFragment extends Fragment implements FragmentHandler {
     @Override
     public void handleTransition(FragmentManager fragMan){
         FragmentTransaction fragTrans = fragMan.beginTransaction();
-        fragTrans.setCustomAnimations(R.anim.enter_left, R.anim.exit_left);
+        //fragTrans.setCustomAnimations(R.anim.enter_left, R.anim.exit_left);
         Log.d("IS IT VISIBLE ALREADY? ",""+this.isVisible());
         if(!this.isVisible()) {
-            homeFragment.handleTransition(fragMan);
+            //homeFragment.handleTransition(fragMan);
             fragTrans.replace(containerId, this, tag);
             fragTrans.commit();
             return;

@@ -4,5 +4,17 @@
     <string name="app_name">Hindsight</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <array name="listValues">
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+        <item>Test1</item>
+    </array>
 </resources>
