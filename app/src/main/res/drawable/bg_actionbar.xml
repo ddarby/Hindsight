@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle"
+            android:dither="true">
+
+            <solid android:color="@color/light_gray" />
+
+        </shape>
+    </item>
+
+    <!-- Change bottom value to see a separator, you can change separator color above -->
+    <item android:bottom="0dp">
+        <shape android:shape="rectangle"
+            android:dither="true">
+
+            <solid android:color="@color/light_gray" />
+
+            <padding android:bottom="0dp" />
+        </shape>
+    </item>
+</layer-list>
