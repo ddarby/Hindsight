@@ -1,8 +1,40 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
+        <item name="android:typeface">serif</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ActionBar</item>
+    </style>
+
+    <!-- general styles for the action bar -->
+    <style name="ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@drawable/bg_actionbar</item>
+        <item name="android:backgroundStacked">@drawable/bg_actionbar_stacked</item>
+        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/SubtitleTextStyle</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/bg_actionbar</item>
+        <item name="backgroundStacked">@drawable/bg_actionbar_stacked</item>
+        <item name="titleTextStyle">@style/TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/SubtitleTextStyle</item>
+    </style>
+
+    <!-- action bar title text -->
+    <style name="TitleTextStyle" parent="android:TextAppearance.Medium">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- action bar subtitle text -->
+    <style name="SubtitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>
