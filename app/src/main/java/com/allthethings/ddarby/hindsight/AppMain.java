@@ -15,7 +15,7 @@ import com.allthethings.ddarby.hindsight.nav_fragments.PomodoroFragment;
 import com.allthethings.ddarby.hindsight.nav_fragments.SettingsFragment;
 import java.util.LinkedHashMap;
 
-public class AppMain extends FragmentActivity {
+public class AppMain extends FragmentActivity implements NavigationPagerAdapter.Controller {
 
     private ViewPager viewPager;
     private LinkedHashMap<ActionBar.Tab,Fragment> fragmentMapper;
@@ -28,7 +28,7 @@ public class AppMain extends FragmentActivity {
         fragmentMapper = new LinkedHashMap<ActionBar.Tab, Fragment>();
         setupNavigableMapper();
         viewPager.setOnPageChangeListener(new ViewPagerOnPageListener(getActionBar()));
-        viewPager.setAdapter(new NavigationPagerAdapter(getSupportFragmentManager(), fragmentMapper, getActionBar()));
+        viewPager.setAdapter(new NavigationPagerAdapter(getSupportFragmentManager(), this));
     }
 
     private void setupNavigableMapper(){
@@ -43,5 +43,18 @@ public class AppMain extends FragmentActivity {
         for(ActionBar.Tab tab : fragmentMapper.keySet()){
             actionBar.addTab(tab.setTabListener(new NavigationTabListener(viewPager)));
         }
+    }
+
+    /*
+        NavigationPagerAdapter.Controller Callbacks
+     */
+    @Override
+    public int getCount() {
+        return fragmentMapper.size();
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragmentMapper.get(getActionBar().getTabAt(position));
     }
 }
