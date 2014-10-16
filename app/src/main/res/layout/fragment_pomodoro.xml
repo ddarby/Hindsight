@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     style="@style/Style.Background.Default">
 
-    <TextView
-        android:text="POMODORO"
-        style="@style/Style.Font.Default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"/>
+    <com.allthethings.ddarby.hindsight.widget.stickyheader.stickylistview.StickyListHeadersListView
+        android:id="@+id/pomodoro_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/theme_gray"
+        android:divider="@color/theme_gray_off"
+        android:dividerHeight="1dip"
+        android:fastScrollEnabled="true" />
 
 </LinearLayout>

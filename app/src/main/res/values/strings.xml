@@ -7,17 +7,9 @@
     <string name="action_calender_month">Monthly</string>
     <string name="action_calender_week">Weekly</string>
     <string name="action_calender_day">Daily</string>
-    <array name="listValues">
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-        <item>Test1</item>
-    </array>
+
+    <string name="edittext_title_hint">title</string>
+
+    <string name="done">Done</string>
+
 </resources>

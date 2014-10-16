@@ -1,0 +1,8 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:attr/listSeparatorTextViewStyle"
+    android:layout_height="@dimen/pomodoro_layout_cell_header_height"
+    android:id="@+id/layout_pomodoro_list_item_header_title"
+    android:paddingTop="5dip"
+    android:paddingBottom="5dip"
+    android:background="@color/theme_gray_off"
+    android:textColor="@color/theme_white"/>

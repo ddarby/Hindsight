@@ -14,6 +14,7 @@
     <!-- Theme colors -->
     <color name="theme_cyan">#70d9eb</color>
     <color name="theme_magenta">#f33274</color>
+    <color name="theme_magenta_dark">#dd125c</color>
     <color name="theme_green">#a8de4d</color>
     <color name="theme_orange">#f99640</color>
     <color name="theme_white">#f8f8f2</color>

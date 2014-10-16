@@ -1,7 +1,6 @@
 package com.allthethings.ddarby.hindsight.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,14 +10,15 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 
 import com.allthethings.ddarby.hindsight.R;
-import com.allthethings.ddarby.hindsight.dialog.EventDialog;
 
 import java.lang.reflect.Field;
 
 /**
  * Created by ddarby on 10/12/14.
  */
-public class CalendarFragment extends Fragment implements CalendarView.OnDateChangeListener {
+public class CalendarFragment extends BaseFragment implements CalendarView.OnDateChangeListener {
+
+    public static final String TAG = "calendar";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,10 @@ public class CalendarFragment extends Fragment implements CalendarView.OnDateCha
      */
     @Override
     public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-        new EventDialog(getActivity(), view.getDate()).create().show();
-
+        Bundle args = new Bundle();
+        args.putLong("date", view.getDate());
+        EventDialogFragment eventDialog = new EventDialogFragment();
+        eventDialog.setArguments(args);
+        eventDialog.show(getChildFragmentManager(), EventDialogFragment.TAG);
     }
 }
