@@ -2,6 +2,7 @@ package com.allthethings.ddarby.hindsight.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.allthethings.ddarby.hindsight.R;
 import com.allthethings.ddarby.hindsight.model.Pomodoro;
 import com.allthethings.ddarby.hindsight.model.Task;
+import com.allthethings.ddarby.hindsight.model.data.PomodoroManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,8 @@ public class PomodoroFragment extends Fragment {
 //        ListView listView = (ListView) rootView.findViewById(R.id.pomodoroList);
 //
 //        listView.setAdapter(new ArrayAdapter<>());
+        PomodoroManager manager = PomodoroManager.getInstance();
+        Log.d("All Tasks", manager.getAll().toString());
         return rootView;
     }
     public List<Pomodoro> loadPomodoros(){
@@ -35,7 +39,7 @@ public class PomodoroFragment extends Fragment {
             for (int j = 0; j < taskList.size(); j++) {
                 taskList.add(new Task("SomeTask-"+i+"-"+j, "Some Things to Do"+i+"-"+j, false));
             }
-            pomodoroList.add(new Pomodoro(taskList, new Date(), "Pomodoro Nmber"+i));
+            //pomodoroList.add(new Pomodoro(taskList, new Date(), "Pomodoro Nmber"+i));
         }
         return pomodoroList;
     }

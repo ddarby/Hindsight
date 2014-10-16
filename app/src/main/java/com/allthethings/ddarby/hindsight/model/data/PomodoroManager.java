@@ -8,44 +8,52 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.allthethings.ddarby.hindsight.model.Task;
+import com.allthethings.ddarby.hindsight.util.HindsightUtils;
 
 import java.util.ArrayList;
 
-public class TaskManager extends SQLiteOpenHelper {
+public class PomodoroManager extends SQLiteOpenHelper {
 
+    private final String TABLE_POMODORO = "pomodoro";
     private final String TABLE_TASKS = "task";
     private final String KEY_ID = "_id";
-    private final String KEY_POMODORO_ID = "pomodoro_id";
+    private final String KEY_POMODORO_ID = "_pomodoroId";
     private final String KEY_TITLE = "title";
     private final String KEY_TODO = "todo";
     private final String KEY_FINISHED = "finished";
     private final String KEY_TIMESTAMP = "timestamp";
 
-    public final String[] ALL_COLS = new String[] { KEY_ID, KEY_POMODORO_ID, KEY_TITLE, KEY_TODO, KEY_FINISHED, KEY_TIMESTAMP };
+    public final String[] ALL_TASK_COLS = new String[] { KEY_ID, KEY_POMODORO_ID, KEY_TITLE, KEY_TODO, KEY_FINISHED, KEY_TIMESTAMP };
 
     private static final String DATABASE_NAME = "tasks.db";
     private static final int DATABASE_VERSION = 1;
 
     private SQLiteDatabase db;
-    private static TaskManager instance;
+    private static PomodoroManager instance;
 
-    // Database creation sql statement
-    private final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + "("
-            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_POMODORO_ID + " INTEGER FOREIGN KEY," + KEY_TITLE
-            + " TEXT," + KEY_TODO + " TEXT," + KEY_FINISHED + " INTEGER," + KEY_TIMESTAMP + " TEXT" + ")";
+    // Table creation sql statement
+    private final String POMODORO_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_POMODORO + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT," + KEY_TIMESTAMP + " TEXT" + ")";
 
-    private TaskManager(Context context) {
+    // Table creation sql statement
+    private final String TASK_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_POMODORO_ID + " INTEGER," + KEY_TITLE
+            + " TEXT," + KEY_TODO + " TEXT," + KEY_FINISHED + " INTEGER," + KEY_TIMESTAMP + " TEXT," + " FOREIGN KEY (" + KEY_POMODORO_ID + ") REFERENCES "
+            + TABLE_POMODORO + "(" + KEY_ID + ") ON DELETE CASCADE )";
+
+    private PomodoroManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL(DATABASE_CREATE);
-    }
+        database.execSQL("PRAGMA foreign_keys=ON;");
+        database.execSQL(POMODORO_TABLE_CREATE);
+        database.execSQL(TASK_TABLE_CREATE);    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(TaskManager.class.getName(),
+        Log.w(PomodoroManager.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data"
         );
@@ -55,15 +63,15 @@ public class TaskManager extends SQLiteOpenHelper {
 
     public static synchronized void initializeInstance(Context context) {
         if (instance == null) {
-            instance = new TaskManager(context);
+            instance = new PomodoroManager(context);
         } else {
-            throw new IllegalStateException(TaskManager.class.getSimpleName() + " was already initialized.");
+            throw new IllegalStateException(PomodoroManager.class.getSimpleName() + " was already initialized.");
         }
     }
 
-    public static TaskManager getInstance() {
+    public static PomodoroManager getInstance() {
         if (instance == null) {
-            throw new IllegalStateException(TaskManager.class.getSimpleName() + " is not initialized, call initializeInstance(..) method first.");
+            throw new IllegalStateException(PomodoroManager.class.getSimpleName() + " is not initialized, call initializeInstance(..) method first.");
         }
         return instance;
     }
@@ -122,7 +130,7 @@ public class TaskManager extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE_TASKS, ALL_COLS, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+            cursor = db.query(TABLE_TASKS, ALL_TASK_COLS, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 task = getTaskFromCursor(cursor);
@@ -143,7 +151,7 @@ public class TaskManager extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         db = getDatabaseInstance();
-        Cursor cursor = db.query(TABLE_TASKS, ALL_COLS, KEY_POMODORO_ID + "=?", new String[] { String.valueOf(pomodoroId) }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_TASKS, ALL_TASK_COLS, KEY_POMODORO_ID + "=?", new String[] { String.valueOf(pomodoroId) }, null, null, null, null);
         try {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
@@ -169,7 +177,7 @@ public class TaskManager extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         db = getDatabaseInstance();
-        Cursor cursor = db.query(true, TABLE_TASKS, ALL_COLS, null, null, null, null, null, null);
+        Cursor cursor = db.query(true, TABLE_TASKS, ALL_TASK_COLS, null, null, null, null, null, null);
 
         try {
             if (cursor != null && cursor.moveToFirst()) {
@@ -211,10 +219,11 @@ public class TaskManager extends SQLiteOpenHelper {
         }
     }
 
-    public synchronized void deleteTasks(int pomodoroId) {
+    public synchronized void deleteTasks(int[] taskIds) {
+        String args = HindsightUtils.joinTasks(", ", taskIds);
         db = getDatabaseInstance();
         try {
-            db.delete(TABLE_TASKS, KEY_POMODORO_ID + "=?", new String[]{ String.valueOf(pomodoroId) });
+            db.execSQL("DELETE FROM " + TABLE_TASKS + " WHERE " + KEY_ID + " IN (" + args + ");");
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -264,11 +273,11 @@ public class TaskManager extends SQLiteOpenHelper {
 
     @Override
     public SQLiteDatabase getWritableDatabase() {
-        throw new IllegalStateException(TaskManager.class.getSimpleName() + " should not directly return a database. Use getDatabaseInstance instead.");
+        throw new IllegalStateException(PomodoroManager.class.getSimpleName() + " should not directly return a database. Use getDatabaseInstance instead.");
     }
 
     @Override
     public SQLiteDatabase getReadableDatabase() {
-        throw new IllegalStateException(TaskManager.class.getSimpleName() + " should not directly return a database. Use getDatabaseInstance instead.");
+        throw new IllegalStateException(PomodoroManager.class.getSimpleName() + " should not directly return a database. Use getDatabaseInstance instead.");
     }
 }

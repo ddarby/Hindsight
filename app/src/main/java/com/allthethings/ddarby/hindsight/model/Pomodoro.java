@@ -71,16 +71,6 @@ public class Pomodoro implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "Pomodoro{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", pomodoroTasks=" + pomodoroTasks +
-                ", timestamp=" + timestamp +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return id;
     }
@@ -98,5 +88,15 @@ public class Pomodoro implements Parcelable {
         out.writeString(title);
         out.writeList(pomodoroTasks);
         out.writeLong(timestamp.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "Pomodoro{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", pomodoroTasks=" + pomodoroTasks +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

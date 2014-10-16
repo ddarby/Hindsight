@@ -2,7 +2,7 @@ package com.allthethings.ddarby.hindsight.application;
 
 import android.app.Application;
 
-import com.allthethings.ddarby.hindsight.model.data.TaskManager;
+import com.allthethings.ddarby.hindsight.model.data.PomodoroManager;
 
 /**
  * Created by Garrett on 10/15/14.
@@ -14,6 +14,6 @@ public class HindsightApplication extends Application {
         super.onCreate();
 
         // initialize TaskManager
-        TaskManager.initializeInstance(this);
+        PomodoroManager.initializeInstance(this);
     }
 }

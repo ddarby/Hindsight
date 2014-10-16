@@ -94,18 +94,6 @@ public class Task implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", pomodoroId=" + pomodoroId +
-                ", title='" + title + '\'' +
-                ", todo='" + todo + '\'' +
-                ", finished=" + finished +
-                ", timestamp=" + timestamp +
-                '}';
-    }
-
-    @Override
     public int describeContents() {
         return id;
     }
@@ -127,5 +115,17 @@ public class Task implements Parcelable {
         out.writeString(todo);
         out.writeInt(finished ? 1 : 0);
         out.writeLong(timestamp.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", pomodoroId=" + pomodoroId +
+                ", title='" + title + '\'' +
+                ", todo='" + todo + '\'' +
+                ", finished=" + finished +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }
