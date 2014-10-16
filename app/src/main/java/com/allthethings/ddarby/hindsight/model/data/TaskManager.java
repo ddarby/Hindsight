@@ -84,15 +84,17 @@ public class TaskManager extends SQLiteOpenHelper {
         } catch (Throwable t) {db = null;}
     }
 
-    public synchronized void insertOrUpdateTask(Task task) {
+    public synchronized Task insertOrUpdateTask(Task task) {
         if (task == null) {
-            return;
+            return task;
         }
 
         Task storedTask = getTask(task);
         db = getDatabaseInstance();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, task.getId());
+        if (task.getId() > -1) {
+            values.put(KEY_ID, task.getId());
+        }
         values.put(KEY_POMODORO_ID, task.getPomodoroId());
         values.put(KEY_TITLE, task.getTitle());
         values.put(KEY_TODO, task.getTodo());
@@ -100,8 +102,10 @@ public class TaskManager extends SQLiteOpenHelper {
         if (storedTask != null) {
             values.put(KEY_TIMESTAMP, task.getTimestamp().getTime());
         }
-        db.insertWithOnConflict(TABLE_TASKS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        task.setId((int) db.insertWithOnConflict(TABLE_TASKS, null, values, SQLiteDatabase.CONFLICT_REPLACE));
         closeDatabaseInstance();
+
+        return task;
     }
 
     public synchronized Task getTask(Task task) {
@@ -118,8 +122,7 @@ public class TaskManager extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE_TASKS, ALL_COLS,
-                    KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
+            cursor = db.query(TABLE_TASKS, ALL_COLS, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 task = getTaskFromCursor(cursor);
@@ -140,9 +143,7 @@ public class TaskManager extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         db = getDatabaseInstance();
-        Cursor cursor = db.query(TABLE_TASKS, ALL_COLS,
-                KEY_POMODORO_ID + "=?", new String[] { String.valueOf(pomodoroId) }, null, null, null, null);
-
+        Cursor cursor = db.query(TABLE_TASKS, ALL_COLS, KEY_POMODORO_ID + "=?", new String[] { String.valueOf(pomodoroId) }, null, null, null, null);
         try {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
@@ -202,8 +203,7 @@ public class TaskManager extends SQLiteOpenHelper {
     public synchronized void deleteTask(int id) {
         db = getDatabaseInstance();
         try {
-            db.delete(TABLE_TASKS, KEY_ID + "=?",
-                    new String[]{ String.valueOf(id) });
+            db.delete(TABLE_TASKS, KEY_ID + "=?", new String[]{ String.valueOf(id) });
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -214,8 +214,7 @@ public class TaskManager extends SQLiteOpenHelper {
     public synchronized void deleteTasks(int pomodoroId) {
         db = getDatabaseInstance();
         try {
-            db.delete(TABLE_TASKS, KEY_POMODORO_ID + "=?",
-                    new String[]{ String.valueOf(pomodoroId) });
+            db.delete(TABLE_TASKS, KEY_POMODORO_ID + "=?", new String[]{ String.valueOf(pomodoroId) });
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -248,8 +247,9 @@ public class TaskManager extends SQLiteOpenHelper {
             String title = cursor.getString(titleIndex);
             String todo = cursor.getString(todoIndex);
             boolean finished = cursor.getInt(finishedIndex) == 1;
-            task = new Task(id, pomodoroId, title, todo, finished);
+            task = new Task(title, todo, finished);
             task.setId(id);
+            task.setPomodoroId(pomodoroId);
             try {
                 task.setTimestamp(Long.parseLong(cursor.getString(timestampIndex)));
             } catch (Throwable t) {

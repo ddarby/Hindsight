@@ -30,13 +30,11 @@ public class Task implements Parcelable {
         readFromParcel(in);
     }
 
-    public Task(int id, int pomodoroId, String title, String todo, boolean finished) {
-        this(id, pomodoroId, title, todo, finished, new Date());
+    public Task(String title, String todo, boolean finished) {
+        this(title, todo, finished, new Date());
     }
 
-    public Task(int id, int pomodoroId, String title, String todo, boolean finished, Date timestamp) {
-        this.id = id;
-        this.pomodoroId = id;
+    public Task(String title, String todo, boolean finished, Date timestamp) {
         this.title = title;
         this.todo = todo;
         this.finished = finished;
