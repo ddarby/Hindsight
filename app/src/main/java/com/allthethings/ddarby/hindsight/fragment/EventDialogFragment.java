@@ -55,6 +55,7 @@ public class EventDialogFragment extends DialogFragment implements View.OnClickL
     private void setupDialog() {
         getDialog().setTitle("New Event");
         getDialog().setCanceledOnTouchOutside(true);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bg_dialog);
     }
 
     @Override

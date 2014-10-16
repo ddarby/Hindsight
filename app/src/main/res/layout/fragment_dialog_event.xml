@@ -9,41 +9,49 @@
         android:text="DATE: "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        style="@style/Style.Font.Default"/>
 
     <EditText
         android:id="@+id/event_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edittext_title_hint"
-        android:layout_margin="5dip"/>
+        android:layout_margin="5dip"
+        style="@style/Style.Font.Default"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_margin="5dip">
-
-        <Button
-            android:id="@+id/event_save"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/bg_button_magenta"
-            android:text="@string/save"
-            android:textColor="@color/theme_white"
-            android:layout_marginRight="2.5dip"/>
+        android:layout_margin="5dip"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip">
 
         <Button
             android:id="@+id/event_close"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginRight="2.5dip"
             android:background="@drawable/bg_button_magenta"
             android:text="@string/close"
             android:textColor="@color/theme_white"
-            android:layout_marginLeft="2.5dip"/>
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/event_save"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="2.5dip"
+            android:background="@drawable/bg_button_magenta"
+            android:text="@string/save"
+            android:textColor="@color/theme_white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

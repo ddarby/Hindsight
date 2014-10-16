@@ -80,4 +80,11 @@ O
         <item name="android:textColor">@color/theme_cyan</item>
     </style>
 
+    <!-- Dialog Styles -->
+    <style name="Style.Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 </resources>

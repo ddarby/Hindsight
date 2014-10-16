@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle"
+            android:dither="true">
+            <solid android:color="@color/theme_gray_light" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+
+    <!-- Change bottom value to see a separator, you can change separator color above -->
+    <item android:top="1px" android:left="1px" android:right="1px" android:bottom="1px">
+        <shape android:shape="rectangle"
+            android:dither="true">
+            <solid android:color="@color/theme_gray" />
+            <padding android:top="1px" android:left="1px" android:right="1px" android:bottom="1px" />
+            <corners android:radius="3dp" />
+        </shape>
+    </item>
+</layer-list>

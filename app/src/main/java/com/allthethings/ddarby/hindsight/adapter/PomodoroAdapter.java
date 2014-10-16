@@ -53,7 +53,7 @@ public class PomodoroAdapter extends ArrayAdapter<Pomodoro> implements StickyLis
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_pomodoro_list_item_header_title, null);
         }
 
-        TextView tv = (TextView) convertView.findViewById(R.id.layout_pomodoro_list_item_header_title);
+        TextView tv = (TextView) convertView;
         int toValue = ((position/count)*count+count);
         if (toValue > pomodoroList.size()) {
             toValue = pomodoroList.size();
