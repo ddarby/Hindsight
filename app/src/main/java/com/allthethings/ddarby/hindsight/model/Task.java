@@ -96,9 +96,12 @@ public class Task implements Parcelable {
     @Override
     public String toString() {
         return "Task{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", pomodoroId=" + pomodoroId +
+                ", title='" + title + '\'' +
                 ", todo='" + todo + '\'' +
                 ", finished=" + finished +
+                ", timestamp=" + timestamp +
                 '}';
     }
 
