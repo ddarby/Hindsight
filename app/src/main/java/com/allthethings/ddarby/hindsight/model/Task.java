@@ -35,6 +35,8 @@ public class Task implements Parcelable {
     }
 
     public Task(String title, String todo, boolean finished, Date timestamp) {
+        this.id = -1;
+        this.pomodoroId = -1;
         this.title = title;
         this.todo = todo;
         this.finished = finished;
@@ -115,6 +117,15 @@ public class Task implements Parcelable {
         out.writeString(todo);
         out.writeInt(finished ? 1 : 0);
         out.writeLong(timestamp.getTime());
+    }
+
+    @Override
+    public boolean equals(Object task1) {
+        if (task1 instanceof Task) {
+            return id == ((Task) task1).getId();
+        }
+
+        return false;
     }
 
     @Override

@@ -70,8 +70,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         }
     }
 
-    /*
-        NavigationPagerAdapter.Controller Callbacks
+    /**
+     * NavigationPagerAdapter.Controller Callbacks
      */
     @Override
     public int getCount() {
@@ -83,9 +83,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         return fragmentMapper.get(getActionBar().getTabAt(position));
     }
 
-
-    /*
-        ViewPager.OnPageChangeListener Callbacks
+    /**
+     * ViewPager.OnPageChangeListener Callbacks
      */
     @Override
     public void onPageSelected(int position) {
@@ -99,8 +98,8 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
     public void onPageScrollStateChanged(int i) {}
 
 
-    /*
-        ActionBar.TabListener Callbacks
+    /**
+     * ActionBar.TabListener Callbacks
      */
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

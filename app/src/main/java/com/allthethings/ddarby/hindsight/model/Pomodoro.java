@@ -33,6 +33,7 @@ public class Pomodoro implements Parcelable {
     }
 
     public Pomodoro(String title, ArrayList<Task> pomodoroTasks, Date timestamp) {
+        this.id = -1;
         this.title = title;
         this.pomodoroTasks = pomodoroTasks;
         this.timestamp = timestamp;
@@ -70,6 +71,10 @@ public class Pomodoro implements Parcelable {
         this.timestamp = timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = new Date(timestamp);
+    }
+
     @Override
     public int describeContents() {
         return id;
@@ -88,6 +93,15 @@ public class Pomodoro implements Parcelable {
         out.writeString(title);
         out.writeList(pomodoroTasks);
         out.writeLong(timestamp.getTime());
+    }
+
+    @Override
+    public boolean equals(Object pomodoro1) {
+        if (pomodoro1 instanceof Pomodoro) {
+            return id == ((Pomodoro) pomodoro1).getId();
+        }
+
+        return false;
     }
 
     @Override

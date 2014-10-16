@@ -57,9 +57,8 @@ public class CalendarFragment extends Fragment implements CalendarView.OnDateCha
         inflater.inflate(R.menu.calender, menu);
     }
 
-
-    /*
-        CalendarView.OnDateChangeListener Callbacks
+    /**
+     * CalendarView.OnDateChangeListener Callbacks
      */
     @Override
     public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
