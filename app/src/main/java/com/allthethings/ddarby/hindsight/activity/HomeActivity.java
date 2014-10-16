@@ -18,15 +18,12 @@ import com.allthethings.ddarby.hindsight.fragment.HomeFragment;
 import com.allthethings.ddarby.hindsight.fragment.PomodoroFragment;
 import com.allthethings.ddarby.hindsight.fragment.SettingsFragment;
 
-import java.util.LinkedHashMap;
-
 public class HomeActivity extends ActionBarActivity implements NavigationPagerAdapter.Controller, ViewPager.OnPageChangeListener, ActionBar.TabListener {
 
     private final String PREFS_FILE = "HindsightPrefs";
     private final String LAST_SELECTED_TAB = "lastSelectedTab";
 
     private ViewPager viewPager;
-    private LinkedHashMap<ActionBar.Tab, Fragment> fragmentMapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +33,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         //created for direct access to Fragment via mapped Tab without iteration and switches
-        setupNavigableMapper();
+        setupNavigation();
 
         viewPager.setOnPageChangeListener(this);
         viewPager.setAdapter(new NavigationPagerAdapter(getSupportFragmentManager(), this));
@@ -49,20 +46,14 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         getActionBar().setSelectedNavigationItem(prefs.getInt(LAST_SELECTED_TAB, 0));
     }
 
-    private void setupNavigableMapper() {
+    private void setupNavigation() {
         ActionBar actionBar = getActionBar();
-        fragmentMapper = new LinkedHashMap<ActionBar.Tab, Fragment>();
-        fragmentMapper.put(actionBar.newTab().setText("Home"), new HomeFragment());
-        fragmentMapper.put(actionBar.newTab().setText("Alarm"), new AlarmFragment());
-        fragmentMapper.put(actionBar.newTab().setText("Pomodoro"), new PomodoroFragment());
-        fragmentMapper.put(actionBar.newTab().setText("Calendar"), new CalendarFragment());
-        fragmentMapper.put(actionBar.newTab().setText("Settings"), new SettingsFragment());
-
-        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        //Add each tab to actionbar and set listener foreach tab in Fragment Mapper
-        for (ActionBar.Tab tab : fragmentMapper.keySet()) {
-            actionBar.addTab(tab.setTabListener(this));
-        }
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.addTab(actionBar.newTab().setText("Home").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Alarm").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Pomodoro").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Calendar").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Settings").setTabListener(this));
     }
 
     /**
@@ -70,12 +61,24 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
      */
     @Override
     public int getCount() {
-        return fragmentMapper.size();
+        return getActionBar().getTabCount();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragmentMapper.get(getActionBar().getTabAt(position));
+        switch (position) {
+            case 1:
+                return new AlarmFragment();
+            case 2:
+                return new PomodoroFragment();
+            case 3:
+                return new CalendarFragment();
+            case 4:
+                return new SettingsFragment();
+            case 0:
+            default:
+                return new HomeFragment();
+        }
     }
 
     /**
