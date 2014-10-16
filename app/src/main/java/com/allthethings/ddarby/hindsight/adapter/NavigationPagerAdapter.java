@@ -1,4 +1,4 @@
-package com.allthethings.ddarby.hindsight.adapters;
+package com.allthethings.ddarby.hindsight.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

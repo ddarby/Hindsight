@@ -1,4 +1,4 @@
-package com.allthethings.ddarby.hindsight;
+package com.allthethings.ddarby.hindsight.adapter;
 
 /**
  * Created by ddarby on 10/13/14.

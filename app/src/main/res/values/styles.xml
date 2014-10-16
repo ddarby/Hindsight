@@ -1,13 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="HindsightTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="android:typeface">serif</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/TabTextStyle</item>
+        <item name="android:calendarViewStyle">@style/Style.CalendarView</item>
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
     </style>
 
     <!-- general styles for the action bar -->
@@ -24,17 +27,57 @@
         <item name="titleTextStyle">@style/TitleTextStyle</item>
         <item name="subtitleTextStyle">@style/SubtitleTextStyle</item>
     </style>
-
+O
     <!-- action bar title text -->
     <style name="TitleTextStyle" parent="android:TextAppearance.Medium">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/theme_white</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <!-- action bar subtitle text -->
     <style name="SubtitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/theme_white</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- action bar tab text style -->
+    <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/theme_white</item>
+    </style>
+
+
+
+    <!-- Default Styles -->
+    <style name="Style"></style>
+    <style name="Style.Background"></style>
+    <style name="Style.Font"></style>
+    <!-- Layout styles -->
+    <style name="Style.Background.Default">
+        <item name="android:background">@color/theme_gray</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="Style.Font.Default">
+        <item name="android:textColor">@color/theme_white</item>
+    </style>
+
+    <!-- CalendarView Styles -->
+    <style name="Style.CalendarView" parent="android:Widget.CalendarView">
+        <item name="android:focusedMonthDateColor">@color/theme_white</item>
+        <item name="android:weekNumberColor">@color/theme_magenta</item>
+        <item name="android:selectedWeekBackgroundColor">@color/theme_gray_off</item>
+        <item name="android:selectedDateVerticalBar">@color/theme_magenta</item>
+        <item name="android:unfocusedMonthDateColor">@color/theme_gray_off</item>
+        <item name="android:weekDayTextAppearance">@style/Style.Font.CalendarViewWeek</item>
+        <!--<item name="android:dateTextAppearance">@style/Style.Font.CalendarViewDate</item>-->
+    </style>
+
+    <style name="Style.Font.CalendarViewWeek">
+        <item name="android:textColor">@color/theme_green</item>
+    </style>
+    <style name="Style.Font.CalendarViewDate">
+        <item name="android:textColor">@color/theme_cyan</item>
     </style>
 
 </resources>

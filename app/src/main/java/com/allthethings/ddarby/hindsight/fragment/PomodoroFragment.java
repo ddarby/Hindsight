@@ -1,14 +1,15 @@
-package com.allthethings.ddarby.hindsight.nav_fragments;
+package com.allthethings.ddarby.hindsight.fragment;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.allthethings.ddarby.hindsight.Pomodoro;
+
 import com.allthethings.ddarby.hindsight.R;
-import com.allthethings.ddarby.hindsight.Task;
+import com.allthethings.ddarby.hindsight.model.Pomodoro;
+import com.allthethings.ddarby.hindsight.model.Task;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class PomodoroFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.pomodora_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_pomodoro, container, false);
 //        ListView listView = (ListView) rootView.findViewById(R.id.pomodoroList);
 //
 //        listView.setAdapter(new ArrayAdapter<>());

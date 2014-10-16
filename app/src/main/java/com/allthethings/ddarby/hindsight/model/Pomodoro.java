@@ -1,4 +1,4 @@
-package com.allthethings.ddarby.hindsight;
+package com.allthethings.ddarby.hindsight.model;
 
 import java.util.ArrayList;
 import java.util.Date;
