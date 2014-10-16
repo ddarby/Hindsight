@@ -18,12 +18,7 @@ public class Task implements Parcelable {
     private Date timestamp;
 
     public Task() {
-        this.id = -1;
-        this.pomodoroId = -1;
-        this.title = "unknown";
-        this.todo = "unknown";
-        this.finished = true;
-        this.timestamp = new Date();
+        this("", "", false);
     }
 
     public Task(Parcel in) {
@@ -35,8 +30,12 @@ public class Task implements Parcelable {
     }
 
     public Task(String title, String todo, boolean finished, Date timestamp) {
-        this.id = -1;
-        this.pomodoroId = -1;
+        this(-1, -1, title, todo, finished, timestamp);
+    }
+
+    public Task(int id, int pomodoroId, String title, String todo, boolean finished, Date timestamp) {
+        this.id = id;
+        this.pomodoroId = pomodoroId;
         this.title = title;
         this.todo = todo;
         this.finished = finished;

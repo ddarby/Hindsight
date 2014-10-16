@@ -33,7 +33,11 @@ public class Pomodoro implements Parcelable {
     }
 
     public Pomodoro(String title, ArrayList<Task> pomodoroTasks, Date timestamp) {
-        this.id = -1;
+        this(-1, title, pomodoroTasks, timestamp);
+    }
+
+    public Pomodoro(int id, String title, ArrayList<Task> pomodoroTasks, Date timestamp) {
+        this.id = id;
         this.title = title;
         this.pomodoroTasks = pomodoroTasks;
         this.timestamp = timestamp;
