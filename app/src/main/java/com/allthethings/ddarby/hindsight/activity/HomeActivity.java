@@ -5,20 +5,14 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 
 import com.allthethings.ddarby.hindsight.R;
 import com.allthethings.ddarby.hindsight.adapter.NavigationPagerAdapter;
-import com.allthethings.ddarby.hindsight.fragment.AlarmFragment;
 import com.allthethings.ddarby.hindsight.fragment.BaseFragment;
-import com.allthethings.ddarby.hindsight.fragment.CalendarFragment;
-import com.allthethings.ddarby.hindsight.fragment.HomeFragment;
-import com.allthethings.ddarby.hindsight.fragment.PomodoroFragment;
-import com.allthethings.ddarby.hindsight.fragment.SettingsFragment;
 
-public class HomeActivity extends ActionBarActivity implements NavigationPagerAdapter.Controller, ViewPager.OnPageChangeListener, ActionBar.TabListener {
+public class HomeActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener, ActionBar.TabListener {
 
     private final String PREFS_FILE = "HindsightPrefs";
     private final String LAST_SELECTED_TAB = "lastSelectedTab";
@@ -31,12 +25,9 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         setContentView(R.layout.activity_home);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-
-        //created for direct access to Fragment via mapped Tab without iteration and switches
         setupNavigation();
-
         viewPager.setOnPageChangeListener(this);
-        viewPager.setAdapter(new NavigationPagerAdapter(getSupportFragmentManager(), this));
+        viewPager.setAdapter(new NavigationPagerAdapter(getSupportFragmentManager()));
     }
 
     @Override
@@ -57,31 +48,6 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
     }
 
     /**
-     * NavigationPagerAdapter.Controller Callbacks
-     */
-    @Override
-    public int getCount() {
-        return getActionBar().getTabCount();
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        switch (position) {
-            case 1:
-                return new AlarmFragment();
-            case 2:
-                return new PomodoroFragment();
-            case 3:
-                return new CalendarFragment();
-            case 4:
-                return new SettingsFragment();
-            case 0:
-            default:
-                return new HomeFragment();
-        }
-    }
-
-    /**
      * ViewPager.OnPageChangeListener Callbacks
      */
     @Override
@@ -90,6 +56,7 @@ public class HomeActivity extends ActionBarActivity implements NavigationPagerAd
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         prefs.edit().putInt(LAST_SELECTED_TAB, getActionBar().getSelectedTab().getPosition()).apply();
 
+        // pull Fragment references to call notify since onResume is not called when selecting immediate left/right fragment
         if (viewPager != null && viewPager.getAdapter() != null) {
             for (int i = 0; i < viewPager.getChildCount(); i++) {
                 BaseFragment fragment = (BaseFragment) viewPager.getAdapter().instantiateItem(viewPager, i);

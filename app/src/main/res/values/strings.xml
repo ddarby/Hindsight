@@ -10,6 +10,7 @@
 
     <string name="edittext_title_hint">title</string>
 
-    <string name="done">Done</string>
+    <string name="save">Save</string>
+    <string name="close">Close</string>
 
 </resources>

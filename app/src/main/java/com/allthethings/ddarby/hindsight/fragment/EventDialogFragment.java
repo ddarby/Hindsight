@@ -48,7 +48,8 @@ public class EventDialogFragment extends DialogFragment implements View.OnClickL
         }
 
         title = (EditText) view.findViewById(R.id.event_title);
-        view.findViewById(R.id.event_done).setOnClickListener(this);
+        view.findViewById(R.id.event_save).setOnClickListener(this);
+        view.findViewById(R.id.event_close).setOnClickListener(this);
     }
 
     private void setupDialog() {
@@ -58,8 +59,10 @@ public class EventDialogFragment extends DialogFragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.event_done) {
+        if (view.getId() == R.id.event_save) {
             getDialog().dismiss();
+        } else if (view.getId() == R.id.event_close) {
+            getDialog().cancel();
         }
     }
 
