@@ -13,14 +13,15 @@ import java.util.ArrayList;
 
 public class TaskManager extends SQLiteOpenHelper {
 
-    private static final String TABLE_TASK = "task";
-    public static final String KEY_ID = "_id";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_TODO = "todo";
-    private static final String KEY_FINISHED = "finished";
-    private static final String KEY_TIMESTAMP = "timestamp";
+    private final String TABLE_TASKS = "task";
+    private final String KEY_ID = "_id";
+    private final String KEY_POMODORO_ID = "pomodoro_id";
+    private final String KEY_TITLE = "title";
+    private final String KEY_TODO = "todo";
+    private final String KEY_FINISHED = "finished";
+    private final String KEY_TIMESTAMP = "timestamp";
 
-    public static final String[] ALL_COLS = new String[] { KEY_ID, KEY_TITLE, KEY_TODO, KEY_FINISHED, KEY_TIMESTAMP };
+    public final String[] ALL_COLS = new String[] { KEY_ID, KEY_POMODORO_ID, KEY_TITLE, KEY_TODO, KEY_FINISHED, KEY_TIMESTAMP };
 
     private static final String DATABASE_NAME = "tasks.db";
     private static final int DATABASE_VERSION = 1;
@@ -29,9 +30,9 @@ public class TaskManager extends SQLiteOpenHelper {
     private static TaskManager instance;
 
     // Database creation sql statement
-    private final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_TASK + "("
-            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT," + KEY_TODO + " TEXT,"
-            + KEY_FINISHED + " INTEGER," + KEY_TIMESTAMP + " TEXT" + ")";
+    private final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY," + KEY_POMODORO_ID + " INTEGER FOREIGN KEY," + KEY_TITLE
+            + " TEXT," + KEY_TODO + " TEXT," + KEY_FINISHED + " INTEGER," + KEY_TIMESTAMP + " TEXT" + ")";
 
     private TaskManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,7 +49,7 @@ public class TaskManager extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data"
         );
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         onCreate(db);
     }
 
@@ -92,13 +93,14 @@ public class TaskManager extends SQLiteOpenHelper {
         db = getDatabaseInstance();
         ContentValues values = new ContentValues();
         values.put(KEY_ID, task.getId());
+        values.put(KEY_POMODORO_ID, task.getPomodoroId());
         values.put(KEY_TITLE, task.getTitle());
         values.put(KEY_TODO, task.getTodo());
         values.put(KEY_FINISHED, task.isFinished() ? 1 : 0);
         if (storedTask != null) {
             values.put(KEY_TIMESTAMP, task.getTimestamp().getTime());
         }
-        db.insertWithOnConflict(TABLE_TASK, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict(TABLE_TASKS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         closeDatabaseInstance();
     }
 
@@ -116,7 +118,7 @@ public class TaskManager extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE_TASK, ALL_COLS,
+            cursor = db.query(TABLE_TASKS, ALL_COLS,
                     KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -134,11 +136,39 @@ public class TaskManager extends SQLiteOpenHelper {
         return task;
     }
 
+    public synchronized ArrayList<Task> getAll(int pomodoroId) {
+        ArrayList<Task> tasks = new ArrayList<Task>();
+
+        db = getDatabaseInstance();
+        Cursor cursor = db.query(TABLE_TASKS, ALL_COLS,
+                KEY_POMODORO_ID + "=?", new String[] { String.valueOf(pomodoroId) }, null, null, null, null);
+
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Task task = getTaskFromCursor(cursor);
+                    if (task != null) {
+                        tasks.add(task);
+                    }
+                } while (cursor.moveToNext());
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            closeDatabaseInstance();
+        }
+
+        return tasks;
+    }
+
     public synchronized ArrayList<Task> getAll() {
         ArrayList<Task> tasks = new ArrayList<Task>();
 
         db = getDatabaseInstance();
-        Cursor cursor = db.query(true, TABLE_TASK, ALL_COLS, null, null, null, null, null, null);
+        Cursor cursor = db.query(true, TABLE_TASKS, ALL_COLS, null, null, null, null, null, null);
 
         try {
             if (cursor != null && cursor.moveToFirst()) {
@@ -166,10 +196,26 @@ public class TaskManager extends SQLiteOpenHelper {
             return;
         }
 
+        deleteTask(task.getId());
+    }
+
+    public synchronized void deleteTask(int id) {
         db = getDatabaseInstance();
         try {
-            db.delete(TABLE_TASK, KEY_ID + "=?",
-                    new String[]{ String.valueOf(task.getId()) });
+            db.delete(TABLE_TASKS, KEY_ID + "=?",
+                    new String[]{ String.valueOf(id) });
+        } catch (Throwable t) {
+            t.printStackTrace();
+        } finally {
+            closeDatabaseInstance();
+        }
+    }
+
+    public synchronized void deleteTasks(int pomodoroId) {
+        db = getDatabaseInstance();
+        try {
+            db.delete(TABLE_TASKS, KEY_POMODORO_ID + "=?",
+                    new String[]{ String.valueOf(pomodoroId) });
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -180,7 +226,7 @@ public class TaskManager extends SQLiteOpenHelper {
     public synchronized void deleteDatabase() {
         db = getDatabaseInstance();
         try {
-            db.delete(TABLE_TASK, null, null);
+            db.delete(TABLE_TASKS, null, null);
         } catch (Throwable t) {
             t.printStackTrace();
         } finally {
@@ -192,15 +238,17 @@ public class TaskManager extends SQLiteOpenHelper {
         Task task= null;
         try {
             int idIndex = cursor.getColumnIndex(KEY_ID);
+            int pomodoroIdIndex = cursor.getColumnIndex(KEY_POMODORO_ID);
             int titleIndex = cursor.getColumnIndex(KEY_TITLE);
             int todoIndex = cursor.getColumnIndex(KEY_TODO);
             int finishedIndex = cursor.getColumnIndex(KEY_FINISHED);
             int timestampIndex = cursor.getColumnIndex(KEY_TIMESTAMP);
             int id = cursor.getInt(idIndex);
+            int pomodoroId = cursor.getInt(pomodoroIdIndex);
             String title = cursor.getString(titleIndex);
             String todo = cursor.getString(todoIndex);
             boolean finished = cursor.getInt(finishedIndex) == 1;
-            task = new Task(title, todo, finished);
+            task = new Task(id, pomodoroId, title, todo, finished);
             task.setId(id);
             try {
                 task.setTimestamp(Long.parseLong(cursor.getString(timestampIndex)));

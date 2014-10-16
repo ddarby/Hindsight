@@ -1,13 +1,17 @@
 package com.allthethings.ddarby.hindsight.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by ddarby on 10/13/14.
  */
-public class Task {
+public class Task implements Parcelable {
 
     private int id;
+    private int pomodoroId;
     private String title;
     private String todo;
     private boolean finished;
@@ -15,20 +19,24 @@ public class Task {
 
     public Task() {
         this.id = -1;
+        this.pomodoroId = -1;
         this.title = "unknown";
         this.todo = "unknown";
         this.finished = true;
         this.timestamp = new Date();
     }
 
-    public Task(String title, String todo, boolean finished) {
-        this.title = title;
-        this.todo = todo;
-        this.finished = finished;
-        this.timestamp = new Date();
+    public Task(Parcel in) {
+        readFromParcel(in);
     }
 
-    public Task(String title, String todo, boolean finished, Date timestamp) {
+    public Task(int id, int pomodoroId, String title, String todo, boolean finished) {
+        this(id, pomodoroId, title, todo, finished, new Date());
+    }
+
+    public Task(int id, int pomodoroId, String title, String todo, boolean finished, Date timestamp) {
+        this.id = id;
+        this.pomodoroId = id;
         this.title = title;
         this.todo = todo;
         this.finished = finished;
@@ -41,6 +49,14 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getPomodoroId() {
+        return pomodoroId;
+    }
+
+    public void setPomodoroId(int pomodoroId) {
+        this.pomodoroId = pomodoroId;
     }
 
     public String getTitle() {
@@ -86,5 +102,29 @@ public class Task {
                 ", todo='" + todo + '\'' +
                 ", finished=" + finished +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return id;
+    }
+
+    public void readFromParcel(Parcel in) {
+        id = in.readInt();
+        pomodoroId = in.readInt();
+        title = in.readString();
+        todo = in.readString();
+        finished = in.readInt() == 1;
+        timestamp = new Date(in.readLong());
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int i) {
+        out.writeInt(id);
+        out.writeInt(pomodoroId);
+        out.writeString(title);
+        out.writeString(todo);
+        out.writeInt(finished ? 1 : 0);
+        out.writeLong(timestamp.getTime());
     }
 }
