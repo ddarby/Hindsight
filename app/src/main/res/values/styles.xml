@@ -63,7 +63,7 @@ O
     </style>
 
     <!-- CalendarView Styles -->
-    <style name="Style.CalendarView" parent="android:Widget.CalendarView">
+    <style name="Style.CalendarView" parent="android:style/Widget.CalendarView">
         <item name="android:focusedMonthDateColor">@color/theme_white</item>
         <item name="android:weekNumberColor">@color/theme_magenta</item>
         <item name="android:selectedWeekBackgroundColor">@color/theme_gray_off</item>

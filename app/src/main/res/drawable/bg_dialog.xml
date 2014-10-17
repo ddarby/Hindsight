@@ -4,7 +4,7 @@
         <shape android:shape="rectangle"
             android:dither="true">
             <solid android:color="@color/theme_gray_light" />
-            <corners android:radius="3dp" />
+            <corners android:radius="1dp" />
         </shape>
     </item>
 
@@ -14,7 +14,7 @@
             android:dither="true">
             <solid android:color="@color/theme_gray" />
             <padding android:top="1px" android:left="1px" android:right="1px" android:bottom="1px" />
-            <corners android:radius="3dp" />
+            <corners android:radius="1dp" />
         </shape>
     </item>
 </layer-list>

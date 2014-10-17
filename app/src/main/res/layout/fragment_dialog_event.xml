@@ -1,38 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/event_date"
-        android:text="DATE: "
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        style="@style/Style.Font.Default"/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize">
 
-    <EditText
-        android:id="@+id/event_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edittext_title_hint"
-        android:layout_margin="5dip"
-        style="@style/Style.Font.Default"/>
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/event_date"
+                android:text="Date: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                style="@style/Style.Font.Default"/>
+
+            <EditText
+                android:id="@+id/event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edittext_title_hint"
+                android:layout_margin="5dip"
+                style="@style/Style.Font.Default"/>
+
+            <TextView
+                android:text="Start time: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                style="@style/Style.Font.Default"/>
+
+            <TimePicker
+                android:id="@+id/event_start"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:text="Stop time: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                style="@style/Style.Font.Default"/>
+
+            <TimePicker
+                android:id="@+id/event_end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_margin="5dip"
-        android:paddingTop="5dip"
-        android:paddingBottom="5dip">
+        android:paddingTop="5dip">
 
         <Button
             android:id="@+id/event_close"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginRight="2.5dip"
             android:background="@drawable/bg_button_magenta"
@@ -44,7 +81,7 @@
         <Button
             android:id="@+id/event_save"
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="2.5dip"
             android:background="@drawable/bg_button_magenta"
@@ -55,4 +92,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
