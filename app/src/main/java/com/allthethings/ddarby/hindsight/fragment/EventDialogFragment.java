@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.allthethings.ddarby.hindsight.R;
 import com.allthethings.ddarby.hindsight.model.Pomodoro;
@@ -26,8 +25,6 @@ public class EventDialogFragment extends DialogFragment implements View.OnClickL
 
     private TextView date;
     private EditText title;
-    private TimePicker start;
-    private TimePicker end;
 
     private boolean cancelled = false;
 
@@ -53,9 +50,6 @@ public class EventDialogFragment extends DialogFragment implements View.OnClickL
         title = (EditText) view.findViewById(R.id.event_title);
         view.findViewById(R.id.event_save).setOnClickListener(this);
         view.findViewById(R.id.event_close).setOnClickListener(this);
-
-        start = (TimePicker) view.findViewById(R.id.event_start);
-        end = (TimePicker) view.findViewById(R.id.event_end);
     }
 
     private void setupDialog() {

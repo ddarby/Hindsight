@@ -29,30 +29,6 @@
                 android:layout_margin="5dip"
                 style="@style/Style.Font.Default"/>
 
-            <TextView
-                android:text="Start time: "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                style="@style/Style.Font.Default"/>
-
-            <TimePicker
-                android:id="@+id/event_start"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:text="Stop time: "
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                style="@style/Style.Font.Default"/>
-
-            <TimePicker
-                android:id="@+id/event_end"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </LinearLayout>
 
     </ScrollView>
