@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 20
     buildToolsVersion "20.0.0"
-    aaptOptions.useAaptPngCruncher = true;
 
     defaultConfig {
         applicationId "com.allthethings.ddarby.hindsight"
@@ -11,6 +10,10 @@ android {
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     buildTypes {
@@ -28,5 +31,6 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
     compile ("com.doomonafireball.betterpickers:library:1.5.2") {
         exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-v7'
     }
 }
